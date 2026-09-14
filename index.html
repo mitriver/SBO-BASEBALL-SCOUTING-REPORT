@@ -242,7 +242,7 @@
                             <input type="number" step="0.1" min="0" max="10" id="form-s2" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                         <div>
-                            <span id="lbl-s3" class="text-[9px] text-slate-400 block text-center">수비</span>
+                            <span id="lbl-s3" class="text-[9px] text-slate-400 block text-center">구위</span>
                             <input type="number" step="0.1" min="0" max="10" id="form-s3" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                         <div>
@@ -293,7 +293,7 @@
             return 'ETC';
         }
 
-        // 선수 데이터
+        // 선수 데이터 (투수 2명 스탯 라벨: [구속, 제구, 구위, 체력, 삼진율])
         let playersData = [
             {
                 id: 1,
@@ -304,7 +304,7 @@
                 height: "190cm",
                 number: "No.7",
                 ovr: 9.3,
-                stats: [9.6, 9.0, 8.8, 9.4, 9.6],
+                stats: [9.6, 9.0, 9.1, 9.4, 9.6], // [구속, 제구, 구위, 체력, 삼진율]
                 statPrimary: "전 오영택사스 소속",
                 statSecondary: "11경기 출전 / SBO 준비기간 최고 구속 및 강한 구위",
                 scoutReport: "전 오영택사스 소속 우완 에이스. 총 11경기를 소화하는 뛰어난 체력과 구위를 지님. 스크림(6이닝) 및 본경기 8강·4강(6이닝), 결승전(9이닝)까지 마운드를 압도하며 뛰어난 삼진율을 증명함.",
@@ -319,11 +319,11 @@
                 image: "리냐.webp",
                 height: "175cm",
                 number: "No.59",
-                ovr: 9.5,
-                stats: [8.5, 9.9, 8.8, 9.8, 9.6],
+                ovr: 9.4,
+                stats: [8.5, 9.9, 9.2, 9.8, 9.6], // [구속, 제구, 구위, 체력, 삼진율]
                 statPrimary: "전 천양키즈 소속",
                 statSecondary: "9경기 ERA 0.44 2승2패 58K (8강전 7이닝 완봉승 기록)",
-                scoutReport: "전 천양키즈 소속 선발투수로 총 9경기를 담당. 본경기 8강전에서 7이닝 완봉승을 거두는 압도적 투구를 선보임. 뛰어난 스테미너와 제구력, 상대를 압도하는 높은 삼진율을 갖춘 완성형 에이스.",
+                scoutReport: "전 천양키즈 소속 선발투수로 총 9경기를 담당. 본경기 8강전에서 7이닝 완봉승을 거두는 압도적 투구를 선보임. 뛰어난 스테미너와 제구력, 강력한 구위로 상대를 압도하는 높은 삼진율을 갖춘 완성형 에이스.",
                 highlightTitle: "리냐 하이라이트 클립",
                 highlightUrl: ""
             },
@@ -416,7 +416,7 @@
             const isPitcher = pos === 'P';
             document.getElementById("lbl-s1").innerText = isPitcher ? "구속" : "컨택";
             document.getElementById("lbl-s2").innerText = isPitcher ? "제구" : "파워";
-            document.getElementById("lbl-s3").innerText = "수비";
+            document.getElementById("lbl-s3").innerText = isPitcher ? "구위" : "수비";
             document.getElementById("lbl-s4").innerText = "체력";
             document.getElementById("lbl-s5").innerText = isPitcher ? "삼진율" : "출루율";
         }
@@ -527,7 +527,8 @@
                 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-2 py-0.5 rounded font-bold">SBO 신규</span>`
                 : `<span class="bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs px-2 py-0.5 rounded font-bold">WBD 경험자</span>`;
 
-            const labels = player.pos === 'P' ? ['구속', '제구', '수비', '체력', '삼진율'] : ['컨택', '파워', '수비', '체력', '출루율'];
+            // 투수인 경우 5대 능력치: 구속, 제구, 구위, 체력, 삼진율
+            const labels = player.pos === 'P' ? ['구속', '제구', '구위', '체력', '삼진율'] : ['컨택', '파워', '수비', '체력', '출루율'];
 
             // 5대 세부 수치 카드 생성
             const statCardsHtml = labels.map((label, idx) => `
@@ -603,13 +604,11 @@
             renderReportRadarChart(player, labels);
         }
 
-        // 기본 URL 변환 로직 (음량 파라미터 조절 없이 표준 임베드 URL 전달)
         function parseVideoEmbedUrl(url) {
             if (!url) return `<div class="text-center text-slate-500 text-xs">등록된 하이라이트 영상이 없습니다.</div>`;
             
-            // SOOP (일반 VOD 및 Catch 클립)
+            // SOOP
             if (url.includes('sooplive.co.kr') || url.includes('afreecatv.com') || url.includes('sooplive.com')) {
-                // Catch 링크 (catch.sooplive.co.kr/..., vod.sooplive.co.kr/catch/...)
                 if (url.includes('catch')) {
                     let catchMatch = url.match(/(?:catch\/|catch\.sooplive\.co\.kr\/|c_no=)(\d+)/) || url.match(/\/(\d+)/);
                     if (catchMatch && catchMatch[1]) {
@@ -617,7 +616,6 @@
                     }
                 }
                 
-                // 일반 VOD
                 let match = url.match(/(?:player\/|b_no=)(\d+)/);
                 if (match && match[1]) {
                     return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/player/${match[1]}/embed" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
