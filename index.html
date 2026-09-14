@@ -269,7 +269,7 @@
                 <div>
                     <label class="block text-slate-400 mb-1 font-semibold">하이라이트 영상 설명 / 링크</label>
                     <input type="text" id="form-title" placeholder="예: 다키 삼진 클립" class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 mb-1.5 text-white focus:outline-none focus:border-sky-500">
-                    <input type="text" id="form-url" placeholder="https://vod.sooplive.com/player/... 또는 https://youtu.be/..." class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
+                    <input type="text" id="form-url" placeholder="https://vod.sooplive.co.kr/player/... 또는 캐치 링크" class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
                 </div>
 
                 <div class="flex gap-2 pt-2">
@@ -309,7 +309,7 @@
                 statSecondary: "11경기 출전 / SBO 준비기간 최고 구속 및 강한 구위",
                 scoutReport: "전 오영택사스 소속 우완 에이스. 총 11경기를 소화하는 뛰어난 체력과 구위를 지님. 스크림(6이닝) 및 본경기 8강·4강(6이닝), 결승전(9이닝)까지 마운드를 압도하며 뛰어난 삼진율을 증명함.",
                 highlightTitle: "다키 삼진 클립",
-                highlightUrl: "https://vod.sooplive.com/player/207075959"
+                highlightUrl: "https://vod.sooplive.co.kr/player/207075959"
             },
             {
                 id: 4,
@@ -341,7 +341,7 @@
                 statSecondary: "12경기 28타수 7안타(타율 0.250) 0볼넷 7삼진 (출루율 0.250)",
                 scoutReport: "전 오영택사스 소속 내야수. 볼넷이 없어 출루율이 타율(0.250)과 동일하게 형성됨. 수비 안정감과 체력은 상위권이나, 삼진 비율 관리와 볼넷을 골라내는 선구안 보강이 과제.",
                 highlightTitle: "양도끼 파울 플라이 아웃 잡는 클립",
-                highlightUrl: "https://vod.sooplive.com/player/207091463"
+                highlightUrl: "https://vod.sooplive.co.kr/player/207091463"
             },
             {
                 id: 2,
@@ -354,10 +354,10 @@
                 ovr: 7.4,
                 stats: [8.8, 9.1, 5.2, 8.0, 5.8],
                 statPrimary: "전 로얄 버팔로즈 소속",
-                statSecondary: "8강 승부치기 결승타 / 적은 볼넷 기반 출루율 형성",
-                scoutReport: "전 로얄 버팔로즈 소속 포수. 8강 승부치기 결승타 등 정타 및 파워 툴이 우수함. 볼넷과 삼진 비율을 감안한 출루율 보완 시 최정상급 공격형 포수로 거듭날 가능성이 큼.",
+                statSecondary: "8강 승부치기 점수차를 넓히는 2타점 2루타를 쳤다 / 적은 볼넷 기반 출루율 형성",
+                scoutReport: "전 로얄 버팔로즈 소속 포수. 8강 승부치기 점수차를 넓히는 2타점 2루타를 쳤다. 정타 및 파워 툴이 우수하며 볼넷과 삼진 비율을 감안한 출루율 보완 시 최정상급 공격형 포수로 거듭날 가능성이 큼.",
                 highlightTitle: "윤이제 장타 클립",
-                highlightUrl: "https://vod.sooplive.com/player/207091621"
+                highlightUrl: "https://vod.sooplive.co.kr/player/207091621"
             },
             {
                 id: 3,
@@ -389,7 +389,7 @@
                 statSecondary: "7경기 17타수 2안타 0볼넷 4삼진 (타율/출루율 0.118)",
                 scoutReport: "전 천양키즈 소속 1루수. 볼넷 기록이 없어 출루율이 타율(0.118) 이하 수준으로 계산됨. 밀어쳐서 담장을 넘기는 우수한 파워 툴에 비해 선구안과 출루 능력 향상이 필수적.",
                 highlightTitle: "미르 홈런 클립",
-                highlightUrl: "https://vod.sooplive.com/player/207091539"
+                highlightUrl: "https://vod.sooplive.co.kr/player/207091539"
             }
         ];
 
@@ -552,7 +552,7 @@
                             <p class="text-xs text-slate-300 mt-1">이력: ${player.statPrimary}</p>
                         </div>
                     </div>
-                    <!-- 총 오버롤만 노란색(text-yellow-400)으로 표기 -->
+                    <!-- 총 오버롤 노란색 표기 -->
                     <div class="text-right bg-sky-950/50 border border-sky-500/30 px-4 py-2 rounded-xl">
                         <span class="text-[10px] text-slate-300 block font-semibold">총 오버롤 (OVR)</span>
                         <span class="text-2xl font-black text-yellow-400">${player.ovr} <span class="text-xs text-slate-400 font-normal">/ 10</span></span>
@@ -592,7 +592,6 @@
                     <div class="flex items-center gap-1.5 mb-2">
                         <i data-lucide="video" class="w-4 h-4 text-sky-400"></i>
                         <span class="text-xs font-bold text-slate-200">${player.highlightTitle || '명장면 & 클립 영상'}</span>
-                        <span class="text-[10px] text-slate-400 ml-auto">(기본 음량: 50%)</span>
                     </div>
                     <div class="w-full aspect-video bg-slate-900 rounded-lg overflow-hidden border border-slate-800 flex items-center justify-center relative">
                         ${embedIframe}
@@ -602,27 +601,30 @@
 
             lucide.createIcons();
             renderReportRadarChart(player, labels);
-
-            // 로드 후 DOM에 탑재된 모든 비디오 요소 음량 50% 강제 적용
-            setTimeout(() => {
-                const videoElements = container.querySelectorAll('video');
-                videoElements.forEach(v => {
-                    v.volume = 0.5;
-                });
-            }, 100);
         }
 
-        // 음량 50% 설정 매개변수가 포함된 파싱 로직
+        // 기본 URL 변환 로직 (음량 파라미터 조절 없이 표준 임베드 URL 전달)
         function parseVideoEmbedUrl(url) {
             if (!url) return `<div class="text-center text-slate-500 text-xs">등록된 하이라이트 영상이 없습니다.</div>`;
             
+            // SOOP (일반 VOD 및 Catch 클립)
             if (url.includes('sooplive.co.kr') || url.includes('afreecatv.com') || url.includes('sooplive.com')) {
+                // Catch 링크 (catch.sooplive.co.kr/..., vod.sooplive.co.kr/catch/...)
+                if (url.includes('catch')) {
+                    let catchMatch = url.match(/(?:catch\/|catch\.sooplive\.co\.kr\/|c_no=)(\d+)/) || url.match(/\/(\d+)/);
+                    if (catchMatch && catchMatch[1]) {
+                        return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/catch/${catchMatch[1]}/embed" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    }
+                }
+                
+                // 일반 VOD
                 let match = url.match(/(?:player\/|b_no=)(\d+)/);
                 if (match && match[1]) {
-                    return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/player/${match[1]}/embed?volume=50&vol=50" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+                    return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/player/${match[1]}/embed" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 }
             }
             
+            // 유튜브
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 let videoId = '';
                 if (url.includes('youtu.be/')) {
@@ -632,11 +634,11 @@
                 }
                 
                 if (videoId) {
-                    return `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}?enablejsapi=1" frameborder="0" allow="autoplay" allowfullscreen onload="this.contentWindow.postMessage('{\\"event\\":\\"command\\",\\"func\\":\\"setVolume\\",\\"args\\":[50]}', '*')"></iframe>`;
+                    return `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 }
             }
             
-            return `<iframe class="w-full h-full" src="${url}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+            return `<iframe class="w-full h-full" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
         }
 
         function renderReportRadarChart(player, labels) {
