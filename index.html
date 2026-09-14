@@ -112,22 +112,23 @@
     <main class="flex-1 p-4 overflow-hidden relative">
 
         <section class="w-full h-full grid grid-cols-12 gap-4">
-            <!-- Left Side: Roster List -->
+            <!-- Left Side: Roster List & Category Tabs -->
             <div class="col-span-4 bg-[#182232]/80 border border-slate-700/50 rounded-2xl p-4 flex flex-col gap-3 overflow-hidden backdrop-blur shadow-xl">
+                
+                <!-- 포지션 별 탭 버튼 영역 -->
+                <div class="flex items-center gap-1 bg-[#0f172a] p-1 rounded-xl border border-slate-700/60">
+                    <button onclick="changeTab('ALL')" id="tab-ALL" class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-white bg-sky-600 shadow">전체</button>
+                    <button onclick="changeTab('P')" id="tab-P" class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white">투수</button>
+                    <button onclick="changeTab('C')" id="tab-C" class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white">포수</button>
+                    <button onclick="changeTab('INF')" id="tab-INF" class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white">내야수</button>
+                    <button onclick="changeTab('OF')" id="tab-OF" class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white">외야수</button>
+                </div>
+
                 <div class="flex flex-col gap-2">
-                    <div class="flex justify-between items-center gap-2">
+                    <div class="flex justify-between items-center">
                         <h2 class="text-sm font-bold flex items-center gap-2 text-white shrink-0">
                             <i data-lucide="users" class="w-4 h-4 text-sky-400"></i> SBO 명단
                         </h2>
-                        <div class="flex gap-1.5">
-                            <select id="roster-pos-filter" onchange="renderRosterList()" class="bg-[#0f172a] text-xs border border-slate-700 rounded-lg px-2 py-1 text-slate-300 focus:outline-none">
-                                <option value="ALL">전체 포지션</option>
-                                <option value="P">투수 (P)</option>
-                                <option value="C">포수 (C)</option>
-                                <option value="INF">내야수 (1B,2B,3B,SS)</option>
-                                <option value="OF">외야수 (LF,CF,RF)</option>
-                            </select>
-                        </div>
                     </div>
 
                     <div class="relative">
@@ -283,6 +284,10 @@
             return 'ETC';
         }
 
+        let currentTab = 'ALL';
+        let selectedPlayerId = null;
+        let reportRadarChartInstance = null;
+
         let playersData = [
             {
                 id: 1,
@@ -388,10 +393,6 @@
             }
         ];
 
-        // 기본 선택 선수를 null로 변경 (아무도 선택되지 않은 상태)
-        let selectedPlayerId = null;
-        let reportRadarChartInstance = null;
-
         function hideSplashOverlay() {
             const overlay = document.getElementById("splashOverlay");
             overlay.classList.add("hidden");
@@ -417,15 +418,31 @@
             document.getElementById("lbl-s5").innerText = isPitcher ? "삼진율" : "출루율";
         }
 
+        // 탭 변경 함수
+        function changeTab(tabCategory) {
+            currentTab = tabCategory;
+            selectedPlayerId = null; // 탭 변경 시 선택 초기화
+            
+            ['ALL', 'P', 'C', 'INF', 'OF'].forEach(tab => {
+                const btn = document.getElementById(`tab-${tab}`);
+                if (tab === tabCategory) {
+                    btn.className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-white bg-sky-600 shadow";
+                } else {
+                    btn.className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white";
+                }
+            });
+
+            renderRosterList();
+        }
+
         function renderRosterList() {
             const container = document.getElementById("roster-list-container");
-            const filterPos = document.getElementById("roster-pos-filter").value;
             const searchText = document.getElementById("roster-search-input").value.trim().toLowerCase();
 
             let list = [...playersData];
 
-            if (filterPos !== "ALL") {
-                list = list.filter(p => getPosCategory(p.pos) === filterPos);
+            if (currentTab !== "ALL") {
+                list = list.filter(p => getPosCategory(p.pos) === currentTab);
             }
 
             if (searchText) {
@@ -440,7 +457,6 @@
                 return;
             }
 
-            // 만약 현재 선택된 선수가 필터링 결과에 존재하지 않는다면 선택 해제
             if (selectedPlayerId && !list.some(p => p.id === selectedPlayerId)) {
                 selectedPlayerId = null;
             }
@@ -483,7 +499,6 @@
         }
 
         function selectPlayerFromList(playerId) {
-            // 이미 선택된 선수를 다시 누르면 선택 해제, 아니면 해당 선수 선택
             if (selectedPlayerId === playerId) {
                 selectedPlayerId = null;
             } else {
@@ -495,7 +510,6 @@
         function renderScoutingReportDetail(playerId) {
             const container = document.getElementById("report-view-container");
             
-            // 선수가 선택되지 않았을 경우 안내 UI 표시 및 컨테이너 스타일 레이아웃 조정
             if (!playerId) {
                 if (reportRadarChartInstance) {
                     reportRadarChartInstance.destroy();
@@ -520,7 +534,6 @@
             const player = playersData.find(p => p.id === playerId);
             if (!player) return;
 
-            // 선수가 선택된 경우 정상 레이아웃 복원
             container.className = "col-span-8 bg-[#182232]/80 border border-slate-700/50 rounded-2xl p-5 flex flex-col overflow-y-auto backdrop-blur gap-4 shadow-xl";
 
             const embedIframe = parseVideoEmbedUrl(player.highlightUrl);
