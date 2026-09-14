@@ -592,6 +592,7 @@
                     <div class="flex items-center gap-1.5 mb-2">
                         <i data-lucide="video" class="w-4 h-4 text-sky-400"></i>
                         <span class="text-xs font-bold text-slate-200">${player.highlightTitle || '명장면 & 클립 영상'}</span>
+                        <span class="text-[10px] text-slate-400 ml-auto">(기본 음량: 50%)</span>
                     </div>
                     <div class="w-full aspect-video bg-slate-900 rounded-lg overflow-hidden border border-slate-800 flex items-center justify-center relative">
                         ${embedIframe}
@@ -601,15 +602,24 @@
 
             lucide.createIcons();
             renderReportRadarChart(player, labels);
+
+            // 로드 후 DOM에 탑재된 모든 비디오 요소 음량 50% 강제 적용
+            setTimeout(() => {
+                const videoElements = container.querySelectorAll('video');
+                videoElements.forEach(v => {
+                    v.volume = 0.5;
+                });
+            }, 100);
         }
 
+        // 음량 50% 설정 매개변수가 포함된 파싱 로직
         function parseVideoEmbedUrl(url) {
             if (!url) return `<div class="text-center text-slate-500 text-xs">등록된 하이라이트 영상이 없습니다.</div>`;
             
             if (url.includes('sooplive.co.kr') || url.includes('afreecatv.com') || url.includes('sooplive.com')) {
                 let match = url.match(/(?:player\/|b_no=)(\d+)/);
                 if (match && match[1]) {
-                    return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/player/${match[1]}/embed" frameborder="0" allowfullscreen></iframe>`;
+                    return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/player/${match[1]}/embed?volume=50&vol=50" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
                 }
             }
             
@@ -622,11 +632,11 @@
                 }
                 
                 if (videoId) {
-                    return `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    return `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}?enablejsapi=1" frameborder="0" allow="autoplay" allowfullscreen onload="this.contentWindow.postMessage('{\\"event\\":\\"command\\",\\"func\\":\\"setVolume\\",\\"args\\":[50]}', '*')"></iframe>`;
                 }
             }
             
-            return `<iframe class="w-full h-full" src="${url}" frameborder="0" allowfullscreen></iframe>`;
+            return `<iframe class="w-full h-full" src="${url}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
         }
 
         function renderReportRadarChart(player, labels) {
