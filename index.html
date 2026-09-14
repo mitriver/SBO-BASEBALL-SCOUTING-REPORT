@@ -117,7 +117,7 @@
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center gap-2">
                         <h2 class="text-sm font-bold flex items-center gap-2 text-white shrink-0">
-                            <i data-lucide="users" class="w-4 h-4 text-sky-400"></i> 선수 명단
+                            <i data-lucide="users" class="w-4 h-4 text-sky-400"></i> SBO 명단
                         </h2>
                         <div class="flex gap-1.5">
                             <select id="roster-pos-filter" onchange="renderRosterList()" class="bg-[#0f172a] text-xs border border-slate-700 rounded-lg px-2 py-1 text-slate-300 focus:outline-none">
@@ -128,16 +128,6 @@
                                 <option value="OF">외야수 (LF,CF,RF)</option>
                             </select>
                         </div>
-                    </div>
-
-                    <!-- 탭 구분 (SBO 신규 신청자 / WBD 경험자) -->
-                    <div class="grid grid-cols-2 gap-1 p-1 bg-[#0f172a] rounded-xl border border-slate-700/60">
-                        <button id="tab-new" onclick="switchCategoryTab('NEW')" class="py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-slate-200">
-                            SBO 신규 신청자
-                        </button>
-                        <button id="tab-wbd" onclick="switchCategoryTab('WBD')" class="py-1.5 text-xs font-bold rounded-lg transition-all bg-sky-600 text-white shadow">
-                            WBD 경험자
-                        </button>
                     </div>
 
                     <div class="relative">
@@ -175,12 +165,9 @@
             </div>
 
             <form id="add-player-form" onsubmit="handleAddPlayerSubmit(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="block text-slate-400 mb-1 font-semibold">선수 구분</label>
-                    <select id="form-category" class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
-                        <option value="NEW">SBO 신규 신청자</option>
-                        <option value="WBD">WBD 경험자</option>
-                    </select>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="form-is-wbd" class="w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-[#0f172a]">
+                    <label for="form-is-wbd" class="text-slate-200 font-semibold cursor-pointer">WBD 경험자인 경우 체크 (WBD 경험자 표시)</label>
                 </div>
 
                 <div class="grid grid-cols-3 gap-2">
@@ -227,6 +214,11 @@
                         </label>
                         <input type="text" id="form-image" placeholder="예: 다키.webp" class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
                     </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1 font-semibold">SOOP 방송국 링크</label>
+                    <input type="text" id="form-station" placeholder="https://www.sooplive.com/station/..." class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
                 </div>
 
                 <!-- 10점 만점 세부 스탯 -->
@@ -283,8 +275,6 @@
     </div>
 
     <script>
-        let currentTabCategory = 'WBD'; // 기본 선택: WBD 경험자
-
         function getPosCategory(pos) {
             if (pos === 'P') return 'P';
             if (pos === 'C') return 'C';
@@ -293,18 +283,19 @@
             return 'ETC';
         }
 
-        // 선수 데이터 (투수 2명 스탯 라벨: [구속, 제구, 구위, 체력, 삼진율])
+        // 전체 SBO 명단 (방송국 링크 정보 반영)
         let playersData = [
             {
                 id: 1,
-                category: "WBD",
+                isWbd: true,
                 pos: "P",
                 name: "다키",
                 image: "다키.webp",
+                stationUrl: "https://www.sooplive.com/station/yourdarky",
                 height: "190cm",
                 number: "No.7",
                 ovr: 9.3,
-                stats: [9.6, 9.0, 9.1, 9.4, 9.6], // [구속, 제구, 구위, 체력, 삼진율]
+                stats: [9.6, 9.0, 9.1, 9.4, 9.6],
                 statPrimary: "전 오영택사스 소속",
                 statSecondary: "11경기 출전 / SBO 준비기간 최고 구속 및 강한 구위",
                 scoutReport: "전 오영택사스 소속 우완 에이스. 총 11경기를 소화하는 뛰어난 체력과 구위를 지님. 스크림(6이닝) 및 본경기 8강·4강(6이닝), 결승전(9이닝)까지 마운드를 압도하며 뛰어난 삼진율을 증명함.",
@@ -313,14 +304,15 @@
             },
             {
                 id: 4,
-                category: "WBD",
+                isWbd: true,
                 pos: "P",
                 name: "리냐",
                 image: "리냐.webp",
+                stationUrl: "https://www.sooplive.com/station/lina0108",
                 height: "175cm",
                 number: "No.59",
                 ovr: 9.4,
-                stats: [8.5, 9.9, 9.2, 9.8, 9.6], // [구속, 제구, 구위, 체력, 삼진율]
+                stats: [8.5, 9.9, 9.2, 9.8, 9.6],
                 statPrimary: "전 천양키즈 소속",
                 statSecondary: "9경기 ERA 0.44 2승2패 58K (8강전 7이닝 완봉승 기록)",
                 scoutReport: "전 천양키즈 소속 선발투수로 총 9경기를 담당. 본경기 8강전에서 7이닝 완봉승을 거두는 압도적 투구를 선보임. 뛰어난 스테미너와 제구력, 강력한 구위로 상대를 압도하는 높은 삼진율을 갖춘 완성형 에이스.",
@@ -329,10 +321,11 @@
             },
             {
                 id: 5,
-                category: "WBD",
+                isWbd: true,
                 pos: "1B",
                 name: "양도끼",
                 image: "양도끼.webp",
+                stationUrl: "https://www.sooplive.com/station/yangdoki",
                 height: "174cm",
                 number: "No.3",
                 ovr: 6.9,
@@ -345,10 +338,11 @@
             },
             {
                 id: 2,
-                category: "WBD",
+                isWbd: true,
                 pos: "C",
                 name: "윤이제",
                 image: "윤이제.webp",
+                stationUrl: "https://www.sooplive.com/station/eze1017",
                 height: "WBD 때 190cm / 천양키즈 친선전 때 170cm",
                 number: "No.6",
                 ovr: 7.4,
@@ -361,10 +355,11 @@
             },
             {
                 id: 3,
-                category: "WBD",
+                isWbd: true,
                 pos: "C",
                 name: "힌콕",
                 image: "힌콕.webp",
+                stationUrl: "https://www.sooplive.com/station/hinqocorv",
                 height: "176cm",
                 number: "No.98",
                 ovr: 5.6,
@@ -377,10 +372,11 @@
             },
             {
                 id: 6,
-                category: "WBD",
+                isWbd: true,
                 pos: "1B",
                 name: "미르",
                 image: "미르.webp",
+                stationUrl: "https://www.sooplive.com/station/alice427",
                 height: "175cm",
                 number: "No.70",
                 ovr: 6.0,
@@ -421,28 +417,12 @@
             document.getElementById("lbl-s5").innerText = isPitcher ? "삼진율" : "출루율";
         }
 
-        function switchCategoryTab(category) {
-            currentTabCategory = category;
-            const btnNew = document.getElementById("tab-new");
-            const btnWbd = document.getElementById("tab-wbd");
-
-            if (category === 'NEW') {
-                btnNew.className = "py-1.5 text-xs font-bold rounded-lg transition-all bg-sky-600 text-white shadow";
-                btnWbd.className = "py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-slate-200";
-            } else {
-                btnWbd.className = "py-1.5 text-xs font-bold rounded-lg transition-all bg-sky-600 text-white shadow";
-                btnNew.className = "py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-slate-200";
-            }
-
-            renderRosterList();
-        }
-
         function renderRosterList() {
             const container = document.getElementById("roster-list-container");
             const filterPos = document.getElementById("roster-pos-filter").value;
             const searchText = document.getElementById("roster-search-input").value.trim().toLowerCase();
 
-            let list = playersData.filter(p => p.category === currentTabCategory);
+            let list = [...playersData];
 
             if (filterPos !== "ALL") {
                 list = list.filter(p => getPosCategory(p.pos) === filterPos);
@@ -455,7 +435,7 @@
             document.getElementById("registered-count").innerText = `등록된 선수 ${playersData.length}명`;
 
             if (list.length === 0) {
-                container.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs border border-dashed border-slate-700/60 rounded-xl">해당 카테고리에 등록된 선수가 없습니다.</div>`;
+                container.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs border border-dashed border-slate-700/60 rounded-xl">등록된 선수가 없습니다.</div>`;
                 document.getElementById("report-view-container").innerHTML = `<div class="p-8 text-center text-slate-400 text-sm my-auto">선택된 선수가 없습니다.</div>`;
                 return;
             }
@@ -474,15 +454,18 @@
                     thumbImg = `<div class="w-10 h-10 bg-slate-800 rounded-lg border border-slate-600 flex items-center justify-center font-bold text-xs text-sky-400 shrink-0">${player.pos}</div>`;
                 }
 
+                const wbdBadge = player.isWbd ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] px-1.5 py-0.2 rounded font-bold">WBD 경험자</span>` : '';
+
                 return `
                     <div onclick="selectPlayerFromList(${player.id})" class="p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${isSelected ? 'bg-sky-600/25 border-sky-400 shadow-md shadow-sky-950/40' : 'bg-[#0f172a]/70 border-slate-700/60 hover:border-slate-500 hover:bg-[#152033]'}">
                         <div class="flex items-center gap-3">
                             ${thumbImg}
                             <div>
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1.5 flex-wrap">
                                     <span class="text-xs font-bold text-sky-300 font-mono">${player.number}</span>
                                     <h3 class="font-bold text-sm text-white">${player.name}</h3>
                                     <span class="text-[10px] text-sky-300 font-bold bg-sky-950/80 px-1.5 py-0.5 rounded border border-sky-700/60">${player.pos}</span>
+                                    ${wbdBadge}
                                 </div>
                                 <span class="text-[10px] text-slate-400">${player.statPrimary}</span>
                             </div>
@@ -523,14 +506,18 @@
                 profileImageHtml = `<div class="w-14 h-14 bg-sky-950/50 text-sky-300 border border-sky-500/40 rounded-xl flex items-center justify-center font-bold text-lg">${player.pos}</div>`;
             }
 
-            const categoryTag = player.category === 'NEW' 
-                ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-2 py-0.5 rounded font-bold">SBO 신규</span>`
-                : `<span class="bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs px-2 py-0.5 rounded font-bold">WBD 경험자</span>`;
+            const wbdDetailBadge = player.isWbd 
+                ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-2 py-0.5 rounded font-bold">WBD 경험자</span>` 
+                : `<span class="bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs px-2 py-0.5 rounded font-bold">SBO 신청자</span>`;
 
-            // 투수인 경우 5대 능력치: 구속, 제구, 구위, 체력, 삼진율
+            const stationBtnHtml = player.stationUrl 
+                ? `<a href="${player.stationUrl}" target="_blank" class="inline-flex items-center gap-1 text-[11px] bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-400/40 px-2 py-0.5 rounded font-semibold transition-all">
+                    <i data-lucide="tv" class="w-3 h-3"></i> 방송국
+                   </a>`
+                : '';
+
             const labels = player.pos === 'P' ? ['구속', '제구', '구위', '체력', '삼진율'] : ['컨택', '파워', '수비', '체력', '출루율'];
 
-            // 5대 세부 수치 카드 생성
             const statCardsHtml = labels.map((label, idx) => `
                 <div class="bg-[#182232] border border-slate-700/80 rounded-lg p-2 text-center">
                     <span class="text-[10px] text-slate-400 block font-medium">${label}</span>
@@ -543,24 +530,23 @@
                     <div class="flex items-center gap-4">
                         ${profileImageHtml}
                         <div>
-                            <div class="flex items-center gap-2">
-                                ${categoryTag}
+                            <div class="flex items-center gap-2 flex-wrap">
+                                ${wbdDetailBadge}
                                 <span class="bg-sky-500/15 text-sky-300 border border-sky-400/30 text-xs px-2 py-0.5 rounded font-mono font-bold">${player.number}</span>
                                 <h2 class="text-xl font-bold text-white">${player.name}</h2>
                                 <span class="bg-sky-600/20 text-sky-300 border border-sky-500/30 text-xs px-2 py-0.5 rounded font-bold">${player.pos}</span>
                                 <span class="text-xs text-slate-400 font-mono">(${player.height})</span>
+                                ${stationBtnHtml}
                             </div>
                             <p class="text-xs text-slate-300 mt-1">이력: ${player.statPrimary}</p>
                         </div>
                     </div>
-                    <!-- 총 오버롤 노란색 표기 -->
                     <div class="text-right bg-sky-950/50 border border-sky-500/30 px-4 py-2 rounded-xl">
                         <span class="text-[10px] text-slate-300 block font-semibold">총 오버롤 (OVR)</span>
                         <span class="text-2xl font-black text-yellow-400">${player.ovr} <span class="text-xs text-slate-400 font-normal">/ 10</span></span>
                     </div>
                 </div>
 
-                <!-- 세부 스탯 수치 영역 -->
                 <div class="grid grid-cols-5 gap-2">
                     ${statCardsHtml}
                 </div>
@@ -607,7 +593,6 @@
         function parseVideoEmbedUrl(url) {
             if (!url) return `<div class="text-center text-slate-500 text-xs">등록된 하이라이트 영상이 없습니다.</div>`;
             
-            // SOOP
             if (url.includes('sooplive.co.kr') || url.includes('afreecatv.com') || url.includes('sooplive.com')) {
                 if (url.includes('catch')) {
                     let catchMatch = url.match(/(?:catch\/|catch\.sooplive\.co\.kr\/|c_no=)(\d+)/) || url.match(/\/(\d+)/);
@@ -622,7 +607,6 @@
                 }
             }
             
-            // 유튜브
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 let videoId = '';
                 if (url.includes('youtu.be/')) {
@@ -684,15 +668,16 @@
             const s5 = parseFloat(document.getElementById("form-s5").value) || 0;
             const overall = ((s1 + s2 + s3 + s4 + s5) / 5).toFixed(1);
 
-            const category = document.getElementById("form-category").value;
+            const isWbd = document.getElementById("form-is-wbd").checked;
 
             const newPlayer = {
                 id: Date.now(),
-                category: category,
+                isWbd: isWbd,
                 pos: document.getElementById("form-pos").value,
                 name: document.getElementById("form-name").value,
                 number: document.getElementById("form-number").value || 'No.0',
                 image: document.getElementById("form-image").value || '',
+                stationUrl: document.getElementById("form-station").value || '',
                 height: document.getElementById("form-height").value || '170cm',
                 ovr: parseFloat(overall),
                 stats: [s1, s2, s3, s4, s5],
@@ -704,8 +689,6 @@
             };
 
             playersData.push(newPlayer);
-            currentTabCategory = category;
-            switchCategoryTab(category);
             selectedPlayerId = newPlayer.id;
             document.getElementById("add-player-form").reset();
             toggleModal(false);
