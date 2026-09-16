@@ -115,7 +115,6 @@
             <!-- Left Side: Roster List & Category Tabs -->
             <div class="col-span-4 bg-[#182232]/80 border border-slate-700/50 rounded-2xl p-4 flex flex-col gap-3 overflow-hidden backdrop-blur shadow-xl">
                 
-                <!-- 카테고리/포지션 탭 버튼 영역 -->
                 <div class="flex items-center gap-1 bg-[#0f172a] p-1 rounded-xl border border-slate-700/60">
                     <button onclick="changeTab('ALL')" id="tab-ALL" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-white bg-sky-600 shadow">전체</button>
                     <button onclick="changeTab('NEW')" id="tab-NEW" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-teal-400 hover:text-teal-300">신규</button>
@@ -175,8 +174,9 @@
                 <div class="grid grid-cols-3 gap-2">
                     <div>
                         <label class="block text-slate-400 mb-1 font-semibold">포지션 구분</label>
-                        <select id="form-pos" onchange="updateFormStatLabels()" class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
-                            <optgroup label="투수">
+                        <select id="form-pos" class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
+                            <optgroup label="겸업 / 투수">
+                                <option value="P, LF">P, LF (투타겸업)</option>
                                 <option value="P">P (투수)</option>
                             </optgroup>
                             <optgroup label="포수">
@@ -224,29 +224,56 @@
                     <input type="text" id="form-station" placeholder="https://www.sooplive.com/station/..." class="w-full bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-sky-500">
                 </div>
 
-                <!-- 10점 만점 세부 스탯 -->
+                <!-- 타자 세부 스탯 -->
                 <div class="bg-[#0f172a] p-3 rounded-xl border border-slate-700/80">
-                    <label class="block text-sky-300 mb-1.5 font-semibold text-[11px]">5대 세부 능력치 (10점 만점)</label>
+                    <label class="block text-sky-300 mb-1.5 font-semibold text-[11px]">타자 세부 능력치 (피삼진율은 높을수록 감점)</label>
                     <div class="grid grid-cols-5 gap-1.5">
                         <div>
-                            <span id="lbl-s1" class="text-[9px] text-slate-400 block text-center">구속</span>
-                            <input type="number" step="0.1" min="0" max="10" id="form-s1" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                            <span class="text-[9px] text-slate-400 block text-center">컨택</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-b1" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                         <div>
-                            <span id="lbl-s2" class="text-[9px] text-slate-400 block text-center">제구</span>
-                            <input type="number" step="0.1" min="0" max="10" id="form-s2" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                            <span class="text-[9px] text-slate-400 block text-center">파워</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-b2" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                         <div>
-                            <span id="lbl-s3" class="text-[9px] text-slate-400 block text-center">구위</span>
-                            <input type="number" step="0.1" min="0" max="10" id="form-s3" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                            <span class="text-[9px] text-slate-400 block text-center">수비</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-b3" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                         <div>
-                            <span id="lbl-s4" class="text-[9px] text-slate-400 block text-center">체력</span>
-                            <input type="number" step="0.1" min="0" max="10" id="form-s4" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                            <span class="text-[9px] text-red-400 block text-center">피삼진율</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-b4" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                         <div>
-                            <span id="lbl-s5" class="text-[9px] text-slate-400 block text-center">삼진율</span>
-                            <input type="number" step="0.1" min="0" max="10" id="form-s5" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                            <span class="text-[9px] text-slate-400 block text-center">출루율</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-b5" value="5.0" required class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 투수 세부 스탯 (투수/겸업일 때만 반영) -->
+                <div class="bg-[#0f172a] p-3 rounded-xl border border-slate-700/80">
+                    <label class="block text-teal-300 mb-1.5 font-semibold text-[11px]">투수 세부 능력치 (투수 및 겸업 선수만 해당)</label>
+                    <div class="grid grid-cols-5 gap-1.5">
+                        <div>
+                            <span class="text-[9px] text-slate-400 block text-center">구속</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-p1" value="5.0" class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-slate-400 block text-center">제구</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-p2" value="5.0" class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-slate-400 block text-center">구위</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-p3" value="5.0" class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-slate-400 block text-center">체력</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-p4" value="5.0" class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-slate-400 block text-center">삼진율</span>
+                            <input type="number" step="0.1" min="0" max="10" id="form-p5" value="5.0" class="w-full bg-[#182232] border border-slate-700 rounded-lg p-1.5 text-center text-white font-bold">
                         </div>
                     </div>
                 </div>
@@ -281,18 +308,42 @@
 
     <script>
         function getPosCategory(pos) {
-            if (pos === 'P') return 'P';
-            if (pos === 'C') return 'C';
-            if (['1B', '2B', '3B', 'SS'].includes(pos)) return 'INF';
-            if (['LF', 'CF', 'RF', 'OF'].includes(pos)) return 'OF';
+            if (pos.includes('P')) return 'P';
+            if (pos.includes('C')) return 'C';
+            if (['1B', '2B', '3B', 'SS'].some(p => pos.includes(p))) return 'INF';
+            if (['LF', 'CF', 'RF', 'OF'].some(p => pos.includes(p))) return 'OF';
             return 'ETC';
         }
 
         let currentTab = 'ALL';
         let selectedPlayerId = null;
-        let reportRadarChartInstance = null;
+        let pChartInstance = null;
+        let bChartInstance = null;
 
+        function calcStrikeoutScore(kRate) {
+            let score = 10 - kRate;
+            return Math.max(0, Math.min(10, parseFloat(score.toFixed(1))));
+        }
+
+        // 전체 선수 데이터 정의
         let playersData = [
+            {
+                id: 9,
+                isWbd: true,
+                pos: "P, LF",
+                name: "마왕",
+                image: "마왕.webp",
+                stationUrl: "",
+                height: "160cm -> 190cm (천양키즈 VS 로얄 버팔로즈 교류전 때 변경)",
+                number: "No.17",
+                pitcherStats: [9.7, 9.4, 8.2, 8.8, 9.2], // 구속, 제구, 구위, 체력, 삼진율
+                batterStats: [9.8, 8.5, 9.2, 3.5, 9.5],  // 컨택, 파워, 수비, 피삼진율(낮을수록좋음), 출루율
+                statPrimary: "전 로얄 버팔로즈 소속",
+                statSecondary: "[투수] 6경기 ERA 4.50 38K / [타자] 8경기 타율 0.478 1타점",
+                scoutReport: "풀트 고인물답게 1라운더 입성 후 선발투수 겸 외야수로 활약. 천양키즈 VS 로얄 버팔로즈 교류전 당시 신장을 160cm에서 190cm로 전격 변경함.<br><br><b>투구 역량:</b> 제구와 구속이 날카로우나 신장이 작아 구위가 떨어지는 편이며 정직한 패턴이 단점.<br><b>타격 역량:</b> 타율 0.478의 극강 컨택과 낮은 피삼진율(3.5), 우수한 외야 수비력을 지닌 만능 툴플레이어.",
+                highlightTitle: "마왕 하이라이트",
+                highlightUrl: ""
+            },
             {
                 id: 1,
                 isWbd: true,
@@ -302,11 +353,11 @@
                 stationUrl: "https://www.sooplive.com/station/yourdarky",
                 height: "190cm",
                 number: "No.7",
-                ovr: 9.3,
-                stats: [9.6, 9.0, 9.1, 9.4, 9.6],
+                pitcherStats: [9.6, 9.0, 9.1, 9.6, 9.4],
+                batterStats: null,
                 statPrimary: "전 오영택사스 소속",
                 statSecondary: "11경기 출전 / SBO 준비기간 최고 구속 및 결승 5.1이닝 소화",
-                scoutReport: "전 오영택사스 소속 우완 에이스. 총 11경기를 소화하는 뛰어난 체력과 구위를 지님. 스크림(6이닝) 및 본경기 8강·4강(6이닝), 결승전(5.1이닝)까지 마운드를 압도하며 뛰어난 삼진율을 증명함.",
+                scoutReport: "전 오영택사스 소속 우완 에이스. 총 11경기를 소화하는 뛰어난 체력과 구위를 지님. 결승전(5.1이닝)까지 마운드를 압도하며 뛰어난 삼진율을 증명함.",
                 highlightTitle: "다키 삼진 클립",
                 highlightUrl: "https://vod.sooplive.co.kr/player/207075959"
             },
@@ -319,11 +370,11 @@
                 stationUrl: "https://www.sooplive.com/station/lina0108",
                 height: "175cm",
                 number: "No.59",
-                ovr: 9.4,
-                stats: [8.5, 9.9, 9.2, 9.8, 9.6],
+                pitcherStats: [8.5, 9.9, 9.2, 9.8, 9.6],
+                batterStats: null,
                 statPrimary: "전 천양키즈 소속",
                 statSecondary: "9경기 ERA 0.44 2승2패 58K (8강전 7이닝 완봉승 기록)",
-                scoutReport: "전 천양키즈 소속 선발투수로 총 9경기를 담당. 본경기 8강전에서 7이닝 완봉승을 거두는 압도적 투구를 선보임. 뛰어난 스테미너와 제구력, 강력한 구위로 상대를 압도하는 높은 삼진율을 갖춘 완성형 에이스.",
+                scoutReport: "전 천양키즈 소속 선발투수로 총 9경기를 담당. 본경기 8강전에서 7이닝 완봉승을 거두는 압도적 투구를 선보임.",
                 highlightTitle: "리냐 하이라이트 클립",
                 highlightUrl: ""
             },
@@ -336,11 +387,11 @@
                 stationUrl: "https://www.sooplive.com/station/yangdoki",
                 height: "174cm",
                 number: "No.3",
-                ovr: 6.9,
-                stats: [6.8, 5.5, 9.2, 8.5, 2.5],
+                pitcherStats: null,
+                batterStats: [6.8, 5.5, 9.2, 7.5, 2.5],
                 statPrimary: "전 오영택사스 소속",
-                statSecondary: "12경기 28타수 7안타(타율 0.250) 0볼넷 7삼진 (출루율 0.250)",
-                scoutReport: "전 오영택사스 소속 내야수. 볼넷이 없어 출루율이 타율(0.250)과 동일하게 형성됨. 수비 안정감과 체력은 상위권이나, 삼진 비율 관리와 볼넷을 골라내는 선구안 보강이 과제.",
+                statSecondary: "12경기 28타수 7안타(타율 0.250) 0볼넷 7삼진",
+                scoutReport: "전 오영택사스 소속 내야수. 높은 피삼진율(7.5)과 0볼넷으로 출루율이 낮음. 수비 안정감은 상위권이나 선구안 보강이 필수.",
                 highlightTitle: "양도끼 파울 플라이 아웃 잡는 클립",
                 highlightUrl: "https://vod.sooplive.co.kr/player/207091463"
             },
@@ -351,13 +402,13 @@
                 name: "윤이제",
                 image: "윤이제.webp",
                 stationUrl: "https://www.sooplive.com/station/eze1017",
-                height: "WBD 때 190cm / 천양키즈 친선전 때 170cm",
+                height: "170cm",
                 number: "No.6",
-                ovr: 7.4,
-                stats: [8.8, 9.1, 5.2, 8.0, 5.8],
+                pitcherStats: null,
+                batterStats: [8.8, 9.1, 5.2, 4.2, 5.8],
                 statPrimary: "전 로얄 버팔로즈 소속",
-                statSecondary: "8강 승부치기 점수차를 넓히는 2타점 2루타를 쳤다 / 적은 볼넷 기반 출루율 형성",
-                scoutReport: "전 로얄 버팔로즈 소속 포수. 8강 승부치기 점수차를 넓히는 2타점 2루타를 쳤다. 정타 및 파워 툴이 우수하며 볼넷과 삼진 비율을 감안한 출루율 보완 시 최정상급 공격형 포수로 거듭날 가능성이 큼.",
+                statSecondary: "8강 승부치기 2타점 2루타 기록",
+                scoutReport: "전 로얄 버팔로즈 소속 포수. 정타 및 파워 툴이 우수하며 준수한 피삼진율 관리 능력을 지님.",
                 highlightTitle: "윤이제 장타 클립",
                 highlightUrl: "https://vod.sooplive.co.kr/player/207091621"
             },
@@ -370,11 +421,11 @@
                 stationUrl: "https://www.sooplive.com/station/hinqocorv",
                 height: "176cm",
                 number: "No.98",
-                ovr: 5.6,
-                stats: [3.2, 2.5, 9.5, 9.8, 3.0],
+                pitcherStats: null,
+                batterStats: [3.2, 2.5, 9.5, 8.8, 3.0],
                 statPrimary: "전 오영택사스 소속",
-                statSecondary: "11경기 23타수 1안타 1볼넷 14삼진 (타율 0.043 / 출루율 0.083)",
-                scoutReport: "전 오영택사스 소속 포수. 14삼진 1볼넷으로 출루율 수치가 낮게 형성됨. 다만 포수로서 경기 내내 블로킹과 체력을 지키는 수비적 공헌도는 매우 높음.",
+                statSecondary: "11경기 23타수 1안타 14삼진",
+                scoutReport: "14삼진으로 피삼진율(8.8)이 높아 감점 요소가 큼. 다만 포수로서 뛰어난 수비(9.5) 공헌도를 보여줌.",
                 highlightTitle: "WBD 첫 안타",
                 highlightUrl: "https://vod.sooplive.co.kr/player/207098651"
             },
@@ -387,11 +438,11 @@
                 stationUrl: "https://www.sooplive.com/station/alice427",
                 height: "175cm",
                 number: "No.70",
-                ovr: 6.0,
-                stats: [5.2, 8.8, 7.5, 7.2, 1.2],
+                pitcherStats: null,
+                batterStats: [5.2, 8.8, 7.5, 6.5, 2.8],
                 statPrimary: "전 천양키즈 소속",
-                statSecondary: "7경기 17타수 2안타 0볼넷 4삼진 (타율/출루율 0.118)",
-                scoutReport: "전 천양키즈 소속 1루수. 볼넷 기록이 없어 출루율이 타율(0.118) 이하 수준으로 계산됨. 밀어쳐서 담장을 넘기는 우수한 파워 툴에 비해 선구안과 출루 능력 향상이 필수적.",
+                statSecondary: "7경기 17타수 2안타 4삼진 (홈런 보유)",
+                scoutReport: "밀어쳐서 담장을 넘기는 우수한 파워 툴에 비해 선구안 향상 및 피삼진율 줄이기가 과제.",
                 highlightTitle: "미르 홈런 클립",
                 highlightUrl: "https://vod.sooplive.co.kr/player/207091539"
             },
@@ -404,11 +455,11 @@
                 stationUrl: "",
                 height: "175cm",
                 number: "No.6",
-                ovr: 8.6,
-                stats: [9.3, 8.2, 8.0, 8.8, 8.7],
+                pitcherStats: null,
+                batterStats: [9.3, 8.2, 8.0, 4.0, 8.7],
                 statPrimary: "전 오영택사스 소속",
-                statSecondary: "12경기 29타수 10안타(2루타 3) 타율 0.345 1볼넷 10삼진 1실책",
-                scoutReport: "유격수 중 단연 최고의 타격감을 갖춘 게스 히팅(Guess Heating) 스타일의 스프레이 히터. 노림수를 가져가 상대하기 까다롭고 볼넷까지 얻어내는 참을성을 겸비함. 이덕수 수비코치의 지도 속에 수비력도 꾸준히 발전함. 다만 스탠딩 삼진 비율이 다소 있고 2개월의 풀트 공백기 예열이 필요함.",
+                statSecondary: "12경기 29타수 10안타 타율 0.345 1볼넷 10삼진",
+                scoutReport: "게스 히팅 스타일의 스프레이 히터. 적절한 피삼진율 관리와 최고의 컨택 능력을 겸비함.",
                 highlightTitle: "깡담비 하이라이트",
                 highlightUrl: ""
             },
@@ -421,29 +472,12 @@
                 stationUrl: "",
                 height: "164cm",
                 number: "No.40",
-                ovr: 4.8,
-                stats: [2.5, 2.0, 7.5, 7.0, 5.0],
+                pitcherStats: null,
+                batterStats: [2.5, 2.0, 7.5, 8.2, 5.0],
                 statPrimary: "전 천양키즈 소속",
-                statSecondary: "11경기 18타수 2안타 타율 0.111 11삼진 2실책",
-                scoutReport: "천양키즈 6라운더 지명 선수. 고정 유격수로 출전했으나 전체 2안타에 그치며 타격 극심한 부진을 겪음. 수비는 어찌저찌 볼만하나 타격 보강이 최우선 과제. 풀트 공백기가 있으며 선수 등록 및 타격 패치 운이 시급함.",
+                statSecondary: "11경기 18타수 2안타 11삼진",
+                scoutReport: "고정 유격수로 출전했으나 피삼진율(8.2)이 높아 타격 지표 전반이 크게 하락함.",
                 highlightTitle: "카나시 하이라이트",
-                highlightUrl: ""
-            },
-            {
-                id: 9,
-                isWbd: true,
-                pos: "LF",
-                name: "마왕",
-                image: "마왕.webp",
-                stationUrl: "",
-                height: "190cm",
-                number: "No.17",
-                ovr: 9.2,
-                stats: [9.8, 9.2, 9.5, 9.0, 8.5],
-                statPrimary: "전 로얄 버팔로즈 소속",
-                statSecondary: "8경기 23타수 11안타(2루타 2) 타율 0.478 1타점 8삼진",
-                scoutReport: "풀트 석유다운 최고 수준의 배팅 능력과 독보적인 외야 수비력을 겸비함. 2타석에 1번꼴로 안타를 생산하며 천양키즈와의 친선전에서는 전타석 안타뿐만 아니라 포수&(마무리)투수로도 활약함. 1번보다는 2~4번 중심타선 배치가 효과적이며, 본능적인 타격 스타일상 삼진율 관리만 일부 필요한 최정상급 타자.",
-                highlightTitle: "마왕 하이라이트",
                 highlightUrl: ""
             },
             {
@@ -455,15 +489,33 @@
                 stationUrl: "",
                 height: "180cm",
                 number: "No.99",
-                ovr: 7.7,
-                stats: [7.5, 7.6, 8.5, 8.2, 6.7],
+                pitcherStats: null,
+                batterStats: [7.5, 7.6, 8.5, 3.8, 6.7],
                 statPrimary: "전 로얄 버팔로즈 소속",
-                statSecondary: "9경기 23타수 6안타(2루타 1) 타율 0.261 2타점 4삼진 1볼넷 1실책",
-                scoutReport: "좌/중/우 외야 전 포지션 커버가 가능한 보급형 마왕 스타일. 탄탄한 기본 수비력과 찬스 시 타점을 쓸어담는 뛰어난 클러치 능력을 보유함.",
+                statSecondary: "9경기 23타수 6안타 2타점 4삼진 1볼넷",
+                scoutReport: "외야 전 포지션 커버 가능하며 4삼진에 그칠 정도로 낮은 피삼진율(3.8)을 보유한 안정적인 외야수.",
                 highlightTitle: "뽀린걸 하이라이트",
                 highlightUrl: ""
             }
         ];
+
+        // OVR 자동 계산
+        playersData.forEach(p => {
+            let pAvg = p.pitcherStats ? (p.pitcherStats.reduce((a,b)=>a+b,0)/5) : 0;
+            let bAvg = 0;
+            if (p.batterStats) {
+                let bScores = [p.batterStats[0], p.batterStats[1], p.batterStats[2], calcStrikeoutScore(p.batterStats[3]), p.batterStats[4]];
+                bAvg = bScores.reduce((a,b)=>a+b,0)/5;
+            }
+            
+            if (p.pitcherStats && p.batterStats) {
+                p.ovr = parseFloat(((pAvg + bAvg)/2).toFixed(1));
+            } else if (p.pitcherStats) {
+                p.ovr = parseFloat(pAvg.toFixed(1));
+            } else {
+                p.ovr = parseFloat(bAvg.toFixed(1));
+            }
+        });
 
         function hideSplashOverlay() {
             const overlay = document.getElementById("splashOverlay");
@@ -472,22 +524,8 @@
 
         function toggleModal(show) {
             const modal = document.getElementById("playerModal");
-            if (show) {
-                modal.classList.remove("hidden");
-                updateFormStatLabels();
-            } else {
-                modal.classList.add("hidden");
-            }
-        }
-
-        function updateFormStatLabels() {
-            const pos = document.getElementById("form-pos").value;
-            const isPitcher = pos === 'P';
-            document.getElementById("lbl-s1").innerText = isPitcher ? "구속" : "컨택";
-            document.getElementById("lbl-s2").innerText = isPitcher ? "제구" : "파워";
-            document.getElementById("lbl-s3").innerText = isPitcher ? "구위" : "수비";
-            document.getElementById("lbl-s4").innerText = "체력";
-            document.getElementById("lbl-s5").innerText = isPitcher ? "삼진율" : "출루율";
+            if (show) modal.classList.remove("hidden");
+            else modal.classList.add("hidden");
         }
 
         function changeTab(tabCategory) {
@@ -498,11 +536,9 @@
             tabs.forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
                 if (tab === tabCategory) {
-                    if (tab === 'NEW') {
-                        btn.className = "flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-white bg-teal-600 shadow";
-                    } else {
-                        btn.className = "flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-white bg-sky-600 shadow";
-                    }
+                    btn.className = (tab === 'NEW')
+                        ? "flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-white bg-teal-600 shadow"
+                        : "flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-white bg-sky-600 shadow";
                 } else {
                     btn.className = "flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white";
                 }
@@ -517,11 +553,8 @@
 
             let list = [...playersData];
 
-            if (currentTab === "NEW") {
-                list = list.filter(p => !p.isWbd);
-            } else if (currentTab !== "ALL") {
-                list = list.filter(p => getPosCategory(p.pos) === currentTab);
-            }
+            if (currentTab === "NEW") list = list.filter(p => !p.isWbd);
+            else if (currentTab !== "ALL") list = list.filter(p => getPosCategory(p.pos) === currentTab);
 
             if (searchText) {
                 list = list.filter(p => p.name.toLowerCase().includes(searchText) || p.pos.toLowerCase().includes(searchText));
@@ -542,12 +575,9 @@
             container.innerHTML = list.map(player => {
                 const isSelected = player.id === selectedPlayerId;
                 
-                let thumbImg = '';
-                if (player.image) {
-                    thumbImg = `<img src="${player.image}" alt="${player.name}" class="w-10 h-10 rounded-lg object-cover border border-slate-600 shrink-0" onError="this.style.display='none';"/>`;
-                } else {
-                    thumbImg = `<div class="w-10 h-10 bg-slate-800 rounded-lg border border-slate-600 flex items-center justify-center font-bold text-xs text-sky-400 shrink-0">${player.pos}</div>`;
-                }
+                let thumbImg = player.image 
+                    ? `<img src="${player.image}" alt="${player.name}" class="w-10 h-10 rounded-lg object-cover border border-slate-600 shrink-0" onError="this.style.display='none';"/>`
+                    : `<div class="w-10 h-10 bg-slate-800 rounded-lg border border-slate-600 flex items-center justify-center font-bold text-xs text-sky-400 shrink-0">${player.pos}</div>`;
 
                 const badge = player.isWbd 
                     ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] px-1.5 py-0.2 rounded font-bold">WBD 경험자</span>`
@@ -579,11 +609,7 @@
         }
 
         function selectPlayerFromList(playerId) {
-            if (selectedPlayerId === playerId) {
-                selectedPlayerId = null;
-            } else {
-                selectedPlayerId = playerId;
-            }
+            selectedPlayerId = (selectedPlayerId === playerId) ? null : playerId;
             renderRosterList();
         }
 
@@ -591,10 +617,7 @@
             const container = document.getElementById("report-view-container");
             
             if (!playerId) {
-                if (reportRadarChartInstance) {
-                    reportRadarChartInstance.destroy();
-                    reportRadarChartInstance = null;
-                }
+                destroyCharts();
                 container.className = "col-span-8 bg-[#182232]/80 border border-slate-700/50 rounded-2xl p-5 flex flex-col overflow-y-auto backdrop-blur gap-4 shadow-xl justify-center items-center text-center";
                 container.innerHTML = `
                     <div class="flex flex-col items-center justify-center gap-3 text-slate-400 my-auto">
@@ -618,58 +641,92 @@
 
             const embedIframe = parseVideoEmbedUrl(player.highlightUrl);
 
-            let profileImageHtml = '';
-            if (player.image) {
-                profileImageHtml = `<img src="${player.image}" alt="${player.name}" class="w-14 h-14 rounded-xl object-cover border-2 border-sky-400/60 shadow-md" onError="this.parentNode.innerHTML='<div class=\'w-14 h-14 bg-sky-950/50 text-sky-300 border border-sky-500/40 rounded-xl flex items-center justify-center font-bold text-lg\'>${player.pos}</div>';"/>`;
-            } else {
-                profileImageHtml = `<div class="w-14 h-14 bg-sky-950/50 text-sky-300 border border-sky-500/40 rounded-xl flex items-center justify-center font-bold text-lg">${player.pos}</div>`;
-            }
+            let profileImageHtml = player.image
+                ? `<img src="${player.image}" alt="${player.name}" class="w-14 h-14 rounded-xl object-cover border-2 border-sky-400/60 shadow-md" onError="this.parentNode.innerHTML='<div class=\'w-14 h-14 bg-sky-950/50 text-sky-300 border border-sky-500/40 rounded-xl flex items-center justify-center font-bold text-lg\'>${player.pos}</div>';"/>`
+                : `<div class="w-14 h-14 bg-sky-950/50 text-sky-300 border border-sky-500/40 rounded-xl flex items-center justify-center font-bold text-lg">${player.pos}</div>`;
 
             const statusBadge = player.isWbd 
                 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-2 py-0.5 rounded font-bold">WBD 경험자</span>` 
                 : `<span class="bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs px-2 py-0.5 rounded font-bold">신규 신청자</span>`;
 
             const stationBtnHtml = player.stationUrl 
-                ? `<a href="${player.stationUrl}" target="_blank" class="inline-flex items-center gap-1 text-[11px] bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-400/40 px-2 py-0.5 rounded font-semibold transition-all">
-                    <i data-lucide="tv" class="w-3 h-3"></i> 방송국
-                   </a>`
+                ? `<a href="${player.stationUrl}" target="_blank" class="inline-flex items-center gap-1 text-[11px] bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-400/40 px-2 py-0.5 rounded font-semibold transition-all"><i data-lucide="tv" class="w-3 h-3"></i> 방송국</a>`
                 : '';
 
-            const labels = player.pos === 'P' ? ['구속', '제구', '구위', '체력', '삼진율'] : ['컨택', '파워', '수비', '체력', '출루율'];
-
-            const statCardsHtml = labels.map((label, idx) => `
-                <div class="bg-[#182232] border border-slate-700/80 rounded-lg p-2 text-center">
-                    <span class="text-[10px] text-slate-400 block font-medium">${label}</span>
-                    <span class="text-sm font-bold text-slate-100 font-mono">${player.stats[idx]}</span>
-                </div>
-            `).join('');
-
-            let analysisContentHtml = '';
-            if (!player.isWbd) {
-                analysisContentHtml = `
-                    <div class="space-y-3">
-                        <div>
-                            <span class="text-xs text-teal-400 font-bold block mb-1">신청자 소개글</span>
-                            <p class="text-xs text-slate-200 leading-relaxed font-normal bg-[#182232] p-2.5 rounded-lg border border-slate-700/60">${player.intro || '입력된 소개글이 없습니다.'}</p>
+            let batterCardsHtml = '';
+            if (player.batterStats) {
+                const bLabels = ['컨택', '파워', '수비', '피삼진율', '출루율'];
+                batterCardsHtml = `
+                    <div class="bg-[#0f172a]/80 border border-emerald-500/40 p-3 rounded-xl">
+                        <div class="flex justify-between items-center mb-2 border-b border-emerald-500/30 pb-1">
+                            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1"><i data-lucide="target" class="w-3.5 h-3.5"></i> 타자 세부 능력치</span>
+                            <span class="text-[10px] text-slate-400">(피삼진율은 높을수록 감점)</span>
                         </div>
-                        <div>
-                            <span class="text-xs text-amber-400 font-bold block mb-1 flex items-center gap-1">
-                                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> 스카우트 사견 (풀트력 평가)
-                            </span>
-                            <p class="text-xs text-slate-200 leading-relaxed font-normal bg-[#182232] p-2.5 rounded-lg border border-amber-500/30 text-amber-100/90">${player.scoutReport}</p>
+                        <div class="grid grid-cols-5 gap-2 text-center">
+                            ${bLabels.map((lbl, i) => `
+                                <div class="bg-[#182232] p-1.5 rounded-lg border border-slate-700">
+                                    <span class="text-[10px] ${i===3 ? 'text-red-400 font-bold' : 'text-slate-400'} block">${lbl}</span>
+                                    <span class="text-xs font-bold ${i===3 ? 'text-red-300' : 'text-slate-100'} font-mono">${player.batterStats[i]}</span>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `;
+            }
+
+            let pitcherCardsHtml = '';
+            if (player.pitcherStats) {
+                const pLabels = ['구속', '제구', '구위', '체력', '삼진율'];
+                pitcherCardsHtml = `
+                    <div class="bg-[#0f172a]/80 border border-sky-500/40 p-3 rounded-xl">
+                        <div class="flex justify-between items-center mb-2 border-b border-sky-500/30 pb-1">
+                            <span class="text-xs font-bold text-sky-400 flex items-center gap-1"><i data-lucide="zap" class="w-3.5 h-3.5"></i> 투수 세부 능력치</span>
+                            <span class="text-[10px] text-slate-400">(10점 만점 기준)</span>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 text-center">
+                            ${pLabels.map((lbl, i) => `
+                                <div class="bg-[#182232] p-1.5 rounded-lg border border-slate-700">
+                                    <span class="text-[10px] text-slate-400 block">${lbl}</span>
+                                    <span class="text-xs font-bold text-slate-100 font-mono">${player.pitcherStats[i]}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            let chartsLayoutHtml = '';
+            if (player.pitcherStats && player.batterStats) {
+                chartsLayoutHtml = `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-[#0f172a]/70 border border-sky-500/40 p-3 rounded-xl flex flex-col items-center justify-center relative h-[210px]">
+                            <span class="text-[10px] text-sky-300 absolute top-2 left-3 font-semibold">투수 능력치 다이어그램</span>
+                            <canvas id="pitcherRadarChart"></canvas>
+                        </div>
+                        <div class="bg-[#0f172a]/70 border border-emerald-500/40 p-3 rounded-xl flex flex-col items-center justify-center relative h-[210px]">
+                            <span class="text-[10px] text-emerald-300 absolute top-2 left-3 font-semibold">타자 능력치 다이어그램</span>
+                            <canvas id="batterRadarChart"></canvas>
+                        </div>
+                    </div>
+                `;
+            } else if (player.pitcherStats) {
+                chartsLayoutHtml = `
+                    <div class="bg-[#0f172a]/70 border border-sky-500/40 p-3 rounded-xl flex flex-col items-center justify-center relative h-[210px]">
+                        <span class="text-[10px] text-sky-300 absolute top-2 left-3 font-semibold">투수 능력치 다이어그램</span>
+                        <canvas id="pitcherRadarChart"></canvas>
+                    </div>
+                `;
             } else {
-                analysisContentHtml = `
-                    <div>
-                        <span class="text-xs text-sky-400 font-bold block mb-1.5">스카우트 수석 리포트</span>
-                        <p class="text-xs text-slate-200 leading-relaxed font-normal">${player.scoutReport}</p>
+                chartsLayoutHtml = `
+                    <div class="bg-[#0f172a]/70 border border-emerald-500/40 p-3 rounded-xl flex flex-col items-center justify-center relative h-[210px]">
+                        <span class="text-[10px] text-emerald-300 absolute top-2 left-3 font-semibold">타자 능력치 다이어그램</span>
+                        <canvas id="batterRadarChart"></canvas>
                     </div>
                 `;
             }
 
             container.innerHTML = `
+                <!-- 헤더 프로필 -->
                 <div class="flex items-center justify-between border-b border-slate-700/60 pb-3">
                     <div class="flex items-center gap-4">
                         ${profileImageHtml}
@@ -682,29 +739,33 @@
                                 <span class="text-xs text-slate-400 font-mono">(${player.height})</span>
                                 ${stationBtnHtml}
                             </div>
+                            <span class="text-xs text-slate-400 block mt-1">${player.statSecondary}</span>
                         </div>
                     </div>
                     <div class="text-right bg-sky-950/50 border border-sky-500/30 px-4 py-2 rounded-xl">
-                        <span class="text-[10px] text-slate-300 block font-semibold">총 오버롤 (OVR)</span>
+                        <span class="text-[10px] text-slate-300 block font-semibold">총 종합 평가 (OVR)</span>
                         <span class="text-2xl font-black text-yellow-400">${player.ovr} <span class="text-xs text-slate-400 font-normal">/ 10</span></span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-5 gap-2">
-                    ${statCardsHtml}
+                <!-- 능력치 수치 카드 (분리 표기) -->
+                <div class="space-y-2">
+                    ${pitcherCardsHtml}
+                    ${batterCardsHtml}
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 my-1">
-                    <div class="bg-[#0f172a]/70 border border-slate-700/60 p-3 rounded-xl flex flex-col items-center justify-center relative min-h-[200px]">
-                        <span class="text-[10px] text-slate-400 absolute top-2 left-3 font-semibold">선수 능력이미지 레이더</span>
-                        <canvas id="reportRadarChart" class="max-h-[170px]"></canvas>
-                    </div>
+                <!-- 레이더 차트 다이어그램 (투수 / 타자 완전히 분리되어 출력) -->
+                ${chartsLayoutHtml}
 
-                    <div class="bg-[#0f172a]/70 border border-slate-700/60 p-4 rounded-xl flex flex-col justify-between overflow-y-auto max-h-[220px]">
-                        ${analysisContentHtml}
-                    </div>
+                <!-- 분석 평가 리포트 -->
+                <div class="bg-[#0f172a]/70 border border-slate-700/60 p-3.5 rounded-xl">
+                    <span class="text-xs text-amber-400 font-bold block mb-1 flex items-center gap-1">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> 스카우트 수석 리포트
+                    </span>
+                    <p class="text-xs text-slate-200 leading-relaxed font-normal">${player.scoutReport}</p>
                 </div>
 
+                <!-- 하이라이트 영상 -->
                 <div class="flex-1 flex flex-col bg-[#0f172a]/70 border border-slate-700/60 rounded-xl p-3">
                     <div class="flex items-center gap-1.5 mb-2">
                         <i data-lucide="video" class="w-4 h-4 text-sky-400"></i>
@@ -717,7 +778,90 @@
             `;
 
             lucide.createIcons();
-            renderReportRadarChart(player, labels);
+            renderCharts(player);
+        }
+
+        function destroyCharts() {
+            if (pChartInstance) { pChartInstance.destroy(); pChartInstance = null; }
+            if (bChartInstance) { bChartInstance.destroy(); bChartInstance = null; }
+        }
+
+        function renderCharts(player) {
+            destroyCharts();
+
+            if (player.pitcherStats && document.getElementById('pitcherRadarChart')) {
+                const ctxP = document.getElementById('pitcherRadarChart').getContext('2d');
+                pChartInstance = new Chart(ctxP, {
+                    type: 'radar',
+                    data: {
+                        labels: ['구속', '제구', '구위', '체력', '삼진율'],
+                        datasets: [{
+                            label: '투구 평가',
+                            data: player.pitcherStats,
+                            backgroundColor: 'rgba(56, 189, 248, 0.25)',
+                            borderColor: '#38bdf8',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#7dd3fc'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: '#334155' },
+                                grid: { color: '#334155' },
+                                pointLabels: { color: '#e2e8f0', font: { size: 9, weight: 'bold' } },
+                                ticks: { display: false },
+                                suggestedMin: 0,
+                                suggestedMax: 10
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            if (player.batterStats && document.getElementById('batterRadarChart')) {
+                const ctxB = document.getElementById('batterRadarChart').getContext('2d');
+                const calculatedBatterData = [
+                    player.batterStats[0],
+                    player.batterStats[1],
+                    player.batterStats[2],
+                    calcStrikeoutScore(player.batterStats[3]),
+                    player.batterStats[4]
+                ];
+
+                bChartInstance = new Chart(ctxB, {
+                    type: 'radar',
+                    data: {
+                        labels: ['컨택', '파워', '수비', '피삼진점수', '출루율'],
+                        datasets: [{
+                            label: '타격 평가',
+                            data: calculatedBatterData,
+                            backgroundColor: 'rgba(52, 211, 153, 0.25)',
+                            borderColor: '#34d399',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#6ee7b7'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: '#334155' },
+                                grid: { color: '#334155' },
+                                pointLabels: { color: '#e2e8f0', font: { size: 9, weight: 'bold' } },
+                                ticks: { display: false },
+                                suggestedMin: 0,
+                                suggestedMax: 10
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
         }
 
         function parseVideoEmbedUrl(url) {
@@ -730,90 +874,64 @@
                         return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/catch/${catchMatch[1]}/embed" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                     }
                 }
-                
                 let match = url.match(/(?:player\/|b_no=)(\d+)/);
                 if (match && match[1]) {
                     return `<iframe class="w-full h-full" src="https://vod.sooplive.co.kr/player/${match[1]}/embed" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 }
             }
-            
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 let videoId = '';
-                if (url.includes('youtu.be/')) {
-                    videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0];
-                } else if (url.includes('v=')) {
-                    videoId = url.split('v=')[1].split('&')[0].split('?')[0];
-                }
-                
-                if (videoId) {
-                    return `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-                }
+                if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0];
+                else if (url.includes('v=')) videoId = url.split('v=')[1].split('&')[0].split('?')[0];
+                if (videoId) return `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             }
-            
             return `<iframe class="w-full h-full" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-        }
-
-        function renderReportRadarChart(player, labels) {
-            const chartElem = document.getElementById('reportRadarChart');
-            if (!chartElem) return;
-
-            const ctx = chartElem.getContext('2d');
-
-            if (reportRadarChartInstance) reportRadarChartInstance.destroy();
-
-            reportRadarChartInstance = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: player.name,
-                        data: player.stats,
-                        backgroundColor: 'rgba(56, 189, 248, 0.25)',
-                        borderColor: '#38bdf8',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#7dd3fc'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: '#334155' },
-                            grid: { color: '#334155' },
-                            pointLabels: { color: '#e2e8f0', font: { size: 10, weight: 'bold' } },
-                            ticks: { display: false },
-                            suggestedMin: 0,
-                            suggestedMax: 10
-                        }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
         }
 
         function handleAddPlayerSubmit(e) {
             e.preventDefault();
-            const s1 = parseFloat(document.getElementById("form-s1").value) || 0;
-            const s2 = parseFloat(document.getElementById("form-s2").value) || 0;
-            const s3 = parseFloat(document.getElementById("form-s3").value) || 0;
-            const s4 = parseFloat(document.getElementById("form-s4").value) || 0;
-            const s5 = parseFloat(document.getElementById("form-s5").value) || 0;
-            const overall = ((s1 + s2 + s3 + s4 + s5) / 5).toFixed(1);
-
+            const posVal = document.getElementById("form-pos").value;
             const isWbd = document.getElementById("form-is-wbd").checked;
+            
+            const b1 = parseFloat(document.getElementById("form-b1").value) || 0;
+            const b2 = parseFloat(document.getElementById("form-b2").value) || 0;
+            const b3 = parseFloat(document.getElementById("form-b3").value) || 0;
+            const b4 = parseFloat(document.getElementById("form-b4").value) || 0;
+            const b5 = parseFloat(document.getElementById("form-b5").value) || 0;
+            
+            const batterStats = [b1, b2, b3, b4, b5];
+
+            let pitcherStats = null;
+            if (posVal.includes('P')) {
+                const p1 = parseFloat(document.getElementById("form-p1").value) || 0;
+                const p2 = parseFloat(document.getElementById("form-p2").value) || 0;
+                const p3 = parseFloat(document.getElementById("form-p3").value) || 0;
+                const p4 = parseFloat(document.getElementById("form-p4").value) || 0;
+                const p5 = parseFloat(document.getElementById("form-p5").value) || 0;
+                pitcherStats = [p1, p2, p3, p4, p5];
+            }
+
+            let bScores = [b1, b2, b3, calcStrikeoutScore(b4), b5];
+            let bAvg = bScores.reduce((a,b)=>a+b,0)/5;
+            let ovrVal = bAvg;
+
+            if (pitcherStats) {
+                let pAvg = pitcherStats.reduce((a,b)=>a+b,0)/5;
+                ovrVal = (bAvg + pAvg) / 2;
+            }
 
             const newPlayer = {
                 id: Date.now(),
                 isWbd: isWbd,
-                pos: document.getElementById("form-pos").value,
+                pos: posVal,
                 name: document.getElementById("form-name").value,
                 number: document.getElementById("form-number").value || 'No.0',
                 image: document.getElementById("form-image").value || '',
                 stationUrl: document.getElementById("form-station").value || '',
                 height: document.getElementById("form-height").value || '170cm',
-                ovr: parseFloat(overall),
-                stats: [s1, s2, s3, s4, s5],
+                ovr: parseFloat(ovrVal.toFixed(1)),
+                pitcherStats: pitcherStats,
+                batterStats: batterStats,
                 intro: document.getElementById("form-intro").value || '신청자 소개글이 입력되지 않았습니다.',
                 statPrimary: isWbd ? 'WBD 경험자' : 'SBO 신규 신청자',
                 statSecondary: '신규 등록 선수',
@@ -832,10 +950,7 @@
         window.onload = () => {
             renderRosterList();
             lucide.createIcons();
-
-            setTimeout(() => {
-                hideSplashOverlay();
-            }, 800);
+            setTimeout(() => { hideSplashOverlay(); }, 800);
         };
     </script>
 </body>
