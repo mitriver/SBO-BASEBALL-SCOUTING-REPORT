@@ -115,7 +115,7 @@
             <!-- Left Side: Roster List & Category Tabs -->
             <div class="col-span-4 bg-[#182232]/80 border border-slate-700/50 rounded-2xl p-4 flex flex-col gap-3 overflow-hidden backdrop-blur shadow-xl">
                 
-                <!-- 카테고리/포지션 탭 버튼 영역 (신규 신청자 탭 추가) -->
+                <!-- 카테고리/포지션 탭 버튼 영역 -->
                 <div class="flex items-center gap-1 bg-[#0f172a] p-1 rounded-xl border border-slate-700/60">
                     <button onclick="changeTab('ALL')" id="tab-ALL" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-white bg-sky-600 shadow">전체</button>
                     <button onclick="changeTab('NEW')" id="tab-NEW" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all text-teal-400 hover:text-teal-300">신규</button>
@@ -192,6 +192,7 @@
                                 <option value="LF">LF (좌익수)</option>
                                 <option value="CF">CF (중견수)</option>
                                 <option value="RF">RF (우익수)</option>
+                                <option value="OF">OF (외야수)</option>
                             </optgroup>
                         </select>
                     </div>
@@ -283,7 +284,7 @@
             if (pos === 'P') return 'P';
             if (pos === 'C') return 'C';
             if (['1B', '2B', '3B', 'SS'].includes(pos)) return 'INF';
-            if (['LF', 'CF', 'RF'].includes(pos)) return 'OF';
+            if (['LF', 'CF', 'RF', 'OF'].includes(pos)) return 'OF';
             return 'ETC';
         }
 
@@ -393,6 +394,74 @@
                 scoutReport: "전 천양키즈 소속 1루수. 볼넷 기록이 없어 출루율이 타율(0.118) 이하 수준으로 계산됨. 밀어쳐서 담장을 넘기는 우수한 파워 툴에 비해 선구안과 출루 능력 향상이 필수적.",
                 highlightTitle: "미르 홈런 클립",
                 highlightUrl: "https://vod.sooplive.co.kr/player/207091539"
+            },
+            {
+                id: 7,
+                isWbd: true,
+                pos: "SS",
+                name: "깡담비",
+                image: "깡담비.webp",
+                stationUrl: "",
+                height: "175cm",
+                number: "No.6",
+                ovr: 8.6,
+                stats: [9.3, 8.2, 8.0, 8.8, 8.7],
+                statPrimary: "전 오영택사스 소속",
+                statSecondary: "12경기 29타수 10안타(2루타 3) 타율 0.345 1볼넷 10삼진 1실책",
+                scoutReport: "유격수 중 단연 최고의 타격감을 갖춘 게스 히팅(Guess Heating) 스타일의 스프레이 히터. 노림수를 가져가 상대하기 까다롭고 볼넷까지 얻어내는 참을성을 겸비함. 이덕수 수비코치의 지도 속에 수비력도 꾸준히 발전함. 다만 스탠딩 삼진 비율이 다소 있고 2개월의 풀트 공백기 예열이 필요함.",
+                highlightTitle: "깡담비 하이라이트",
+                highlightUrl: ""
+            },
+            {
+                id: 8,
+                isWbd: true,
+                pos: "SS",
+                name: "카나시",
+                image: "카나시.webp",
+                stationUrl: "",
+                height: "164cm",
+                number: "No.40",
+                ovr: 4.8,
+                stats: [2.5, 2.0, 7.5, 7.0, 5.0],
+                statPrimary: "전 천양키즈 소속",
+                statSecondary: "11경기 18타수 2안타 타율 0.111 11삼진 2실책",
+                scoutReport: "천양키즈 6라운더 지명 선수. 고정 유격수로 출전했으나 전체 2안타에 그치며 타격 극심한 부진을 겪음. 수비는 어찌저찌 볼만하나 타격 보강이 최우선 과제. 풀트 공백기가 있으며 선수 등록 및 타격 패치 운이 시급함.",
+                highlightTitle: "카나시 하이라이트",
+                highlightUrl: ""
+            },
+            {
+                id: 9,
+                isWbd: true,
+                pos: "LF",
+                name: "마왕",
+                image: "마왕.webp",
+                stationUrl: "",
+                height: "190cm",
+                number: "No.17",
+                ovr: 9.2,
+                stats: [9.8, 9.2, 9.5, 9.0, 8.5],
+                statPrimary: "전 로얄 버팔로즈 소속",
+                statSecondary: "8경기 23타수 11안타(2루타 2) 타율 0.478 1타점 8삼진",
+                scoutReport: "풀트 석유다운 최고 수준의 배팅 능력과 독보적인 외야 수비력을 겸비함. 2타석에 1번꼴로 안타를 생산하며 천양키즈와의 친선전에서는 전타석 안타뿐만 아니라 포수&(마무리)투수로도 활약함. 1번보다는 2~4번 중심타선 배치가 효과적이며, 본능적인 타격 스타일상 삼진율 관리만 일부 필요한 최정상급 타자.",
+                highlightTitle: "마왕 하이라이트",
+                highlightUrl: ""
+            },
+            {
+                id: 10,
+                isWbd: true,
+                pos: "LF",
+                name: "뽀린걸",
+                image: "뽀린걸.webp",
+                stationUrl: "",
+                height: "180cm",
+                number: "No.99",
+                ovr: 7.7,
+                stats: [7.5, 7.6, 8.5, 8.2, 6.7],
+                statPrimary: "전 로얄 버팔로즈 소속",
+                statSecondary: "9경기 23타수 6안타(2루타 1) 타율 0.261 2타점 4삼진 1볼넷 1실책",
+                scoutReport: "좌/중/우 외야 전 포지션 커버가 가능한 보급형 마왕 스타일. 탄탄한 기본 수비력과 찬스 시 타점을 쓸어담는 뛰어난 클러치 능력을 보유함.",
+                highlightTitle: "뽀린걸 하이라이트",
+                highlightUrl: ""
             }
         ];
 
@@ -575,7 +644,6 @@
                 </div>
             `).join('');
 
-            // 신규 신청자인 경우 소개글과 스카우트 사견(풀트력 평가)을 각각 명확히 구분
             let analysisContentHtml = '';
             if (!player.isWbd) {
                 analysisContentHtml = `
