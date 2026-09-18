@@ -990,79 +990,91 @@
         function renderCharts(player) {
             destroyCharts();
 
-            if (player.pitcherStats && document.getElementById('pitcherRadarChart')) {
-                const ctxP = document.getElementById('pitcherRadarChart').getContext('2d');
-                pChartInstance = new Chart(ctxP, {
-                    type: 'radar',
-                    data: {
-                        labels: ['구속', '제구', '구위', '체력', '삼진율'],
-                        datasets: [{
-                            label: '투구 평가',
-                            data: player.pitcherStats,
-                            backgroundColor: 'rgba(56, 189, 248, 0.25)',
-                            borderColor: '#38bdf8',
-                            borderWidth: 2,
-                            pointBackgroundColor: '#7dd3fc'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            r: {
-                                angleLines: { color: '#334155' },
-                                grid: { color: '#334155' },
-                                pointLabels: { color: '#e2e8f0', font: { size: 10, weight: 'bold' } },
-                                ticks: { display: false },
-                                suggestedMin: 0,
-                                suggestedMax: 10
-                            }
-                        },
-                        plugins: { legend: { display: false } }
+            // 애니메이션 동작 보장을 위한 Chart.js 세부 설정
+            const radarOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10,
+                        suggestedMin: 0,
+                        suggestedMax: 10,
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: { color: '#e2e8f0', font: { size: 10, weight: 'bold' } },
+                        ticks: { display: false }
                     }
-                });
-            }
+                },
+                plugins: { legend: { display: false } }
+            };
 
-            if (player.batterStats && document.getElementById('batterRadarChart')) {
-                const ctxB = document.getElementById('batterRadarChart').getContext('2d');
-                const calculatedBatterData = [
-                    player.batterStats[0],
-                    player.batterStats[1],
-                    player.batterStats[2],
-                    calcStrikeoutScore(player.batterStats[3]),
-                    player.batterStats[4]
-                ];
-
-                bChartInstance = new Chart(ctxB, {
-                    type: 'radar',
-                    data: {
-                        labels: ['컨택', '파워', '수비', '피삼진점수', '출루율'],
-                        datasets: [{
-                            label: '타격 평가',
-                            data: calculatedBatterData,
-                            backgroundColor: 'rgba(52, 211, 153, 0.25)',
-                            borderColor: '#34d399',
-                            borderWidth: 2,
-                            pointBackgroundColor: '#6ee7b7'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            r: {
-                                angleLines: { color: '#334155' },
-                                grid: { color: '#334155' },
-                                pointLabels: { color: '#e2e8f0', font: { size: 10, weight: 'bold' } },
-                                ticks: { display: false },
-                                suggestedMin: 0,
-                                suggestedMax: 10
-                            }
+            // 렌더링 시점에 DOM 트리가 완전히 반영될 수 있도록 requestAnimationFrame을 적용
+            requestAnimationFrame(() => {
+                if (player.pitcherStats && document.getElementById('pitcherRadarChart')) {
+                    const ctxP = document.getElementById('pitcherRadarChart').getContext('2d');
+                    pChartInstance = new Chart(ctxP, {
+                        type: 'radar',
+                        data: {
+                            labels: ['구속', '제구', '구위', '체력', '삼진율'],
+                            datasets: [{
+                                label: '투구 평가',
+                                data: player.pitcherStats,
+                                backgroundColor: 'rgba(56, 189, 248, 0.25)',
+                                borderColor: '#38bdf8',
+                                borderWidth: 2,
+                                pointBackgroundColor: '#7dd3fc',
+                                pointHoverBackgroundColor: '#fff',
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            }]
                         },
-                        plugins: { legend: { display: false } }
-                    }
-                });
-            }
+                        options: radarOptions
+                    });
+                    
+                    // 0점에서부터 퍼져나가는 애니메이션 트리가 실행되도록 초기화 후 활성화
+                    pChartInstance.update('reset');
+                    pChartInstance.update('active');
+                }
+
+                if (player.batterStats && document.getElementById('batterRadarChart')) {
+                    const ctxB = document.getElementById('batterRadarChart').getContext('2d');
+                    const calculatedBatterData = [
+                        player.batterStats[0],
+                        player.batterStats[1],
+                        player.batterStats[2],
+                        calcStrikeoutScore(player.batterStats[3]),
+                        player.batterStats[4]
+                    ];
+
+                    bChartInstance = new Chart(ctxB, {
+                        type: 'radar',
+                        data: {
+                            labels: ['컨택', '파워', '수비', '피삼진점수', '출루율'],
+                            datasets: [{
+                                label: '타격 평가',
+                                data: calculatedBatterData,
+                                backgroundColor: 'rgba(52, 211, 153, 0.25)',
+                                borderColor: '#34d399',
+                                borderWidth: 2,
+                                pointBackgroundColor: '#6ee7b7',
+                                pointHoverBackgroundColor: '#fff',
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            }]
+                        },
+                        options: radarOptions
+                    });
+
+                    // 0점에서부터 퍼져나가는 애니메이션 트리가 실행되도록 초기화 후 활성화
+                    bChartInstance.update('reset');
+                    bChartInstance.update('active');
+                }
+            });
         }
 
         function parseVideoEmbedUrl(url) {
